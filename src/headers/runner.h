@@ -1,3 +1,3 @@
-void readMap();
-void allocateMap();
-void freeMap();
+int over();
+
+void move(char direction);
