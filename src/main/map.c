@@ -3,7 +3,23 @@
 
 #include "../headers/map.h"
 
-void freeMap(MAP* m)
+void findOnMap(MAP *m, COORDINATES *c, char ch)
+{
+  for (int i = 0; i < m->lines; i++)
+  {
+    for (int j = 0; j < m->columns; j++)
+    {
+      if (m->matrix[i][j] == ch)
+      {
+        c->x = i;
+        c->y = j;
+        break;
+      }
+    }
+  }
+}
+
+void freeMap(MAP *m)
 {
   // desallocating map
   // instead of using (*m).lines, we can use m->lines
@@ -16,7 +32,7 @@ void freeMap(MAP* m)
   free(m->matrix);
 }
 
-void readMap(MAP* m)
+void readMap(MAP *m)
 {
   FILE *f;
 
@@ -40,7 +56,7 @@ void readMap(MAP* m)
   fclose(f);
 }
 
-void allocateMap(MAP* m)
+void allocateMap(MAP *m)
 {
   // allocating the number os lines as pointers of chars
   m->matrix = malloc(sizeof(char *) * m->lines);
@@ -51,7 +67,7 @@ void allocateMap(MAP* m)
   }
 }
 
-void drawMap(MAP* m)
+void drawMap(MAP *m)
 {
   for (int i = 0; i < 5; i++)
   {

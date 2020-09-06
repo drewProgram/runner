@@ -5,6 +5,7 @@
 #include "../headers/map.h"
 
 MAP m;
+COORDINATES runner;
 
 int over()
 {
@@ -13,44 +14,33 @@ int over()
 
 void move(char direction)
 {
-  int x;
-  int y;
-
-  for (int i = 0; i < m.lines; i++)
-  {
-    for (int j = 0; j < m.columns; j++)
-    {
-      if (m.matrix[i][j] == '@')
-      {
-        x = i;
-        y = j;
-        break;
-      }
-    }
-  }
+  m.matrix[runner.x][runner.y] = ' ';
 
   switch (direction)
   {
   case 'w':
-    m.matrix[x - 1][y] = '@';
+    m.matrix[runner.x - 1][runner.y] = '@';
+    runner.x--;
     break;
   case 'a':
-    m.matrix[x][y - 1] = '@';
+    m.matrix[runner.x][runner.y - 1] = '@';
+    runner.y--;
     break;
   case 's':
-    m.matrix[x + 1][y] = '@';
+    m.matrix[runner.x + 1][runner.y] = '@';
+    runner.x++;
     break;
   case 'd':
-    m.matrix[x][y + 1] = '@';
+    m.matrix[runner.x][runner.y + 1] = '@';
+    runner.y++;
     break;
   }
-
-  m.matrix[x][y] = ' ';
 }
 
 int main()
 {
   readMap(&m);
+  findOnMap(&m, &runner, '@');
 
   do
   {
