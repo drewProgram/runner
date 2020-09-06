@@ -1,0 +1,1 @@
+gcc src/main/runner.c src/main/map.c -o runner.exe
