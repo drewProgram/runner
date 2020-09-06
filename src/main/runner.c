@@ -14,27 +14,42 @@ int over()
 
 void move(char direction)
 {
-  m.matrix[runner.x][runner.y] = ' ';
+  if (direction != 'w' &&
+      direction != 'a' &&
+      direction != 's' &&
+      direction != 'd')
+    return;
+
+  int nextX = runner.x;
+  int nextY = runner.y;
 
   switch (direction)
   {
   case 'w':
-    m.matrix[runner.x - 1][runner.y] = '@';
-    runner.x--;
+    nextX--;
     break;
   case 'a':
-    m.matrix[runner.x][runner.y - 1] = '@';
-    runner.y--;
+    nextY--;
     break;
   case 's':
-    m.matrix[runner.x + 1][runner.y] = '@';
-    runner.x++;
+    nextX++;
     break;
   case 'd':
-    m.matrix[runner.x][runner.y + 1] = '@';
-    runner.y++;
+    nextY++;
     break;
   }
+
+  if (nextX >= m.lines) return;
+  if (nextX >= m.columns) return;
+  if (m.matrix[nextX][nextY] != '.' &&
+      m.matrix[nextX][nextY] != ' ')
+    return;
+
+  m.matrix[nextX][nextY] = '@';
+  m.matrix[runner.x][runner.y] = ' ';
+
+  runner.x = nextX;
+  runner.y = nextY;
 }
 
 int main()
