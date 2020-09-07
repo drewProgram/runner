@@ -1,4 +1,6 @@
 #define RUNNER '@'
+#define GHOST 'G'
+
 #define FOOD '.'
 #define VOID ' '
 #define VERTICAL_WALL '|'
@@ -26,6 +28,7 @@ void allocateMap(MAP* m);
 void freeMap(MAP* m);
 void drawMap(MAP* m);
 void findOnMap(MAP *m, COORDINATES *c, char ch);
+void copyMap(MAP* origin, MAP* destiny);
 
 int pathIsValid(MAP* m, int x, int y);
 int pathIsEmpty(MAP* m, int x, int y);

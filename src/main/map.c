@@ -1,7 +1,19 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 
 #include "../headers/map.h"
+
+void copyMap(MAP* origin, MAP* destiny) {
+  destiny->lines = origin->lines;
+  destiny->columns = origin->columns;
+
+  allocateMap(destiny);
+  for (int i = 0; i < origin->lines; i++) {
+    // receives an array of chars and copies this array
+    strcpy(destiny->matrix[i], origin->matrix[i]);
+  }
+}
 
 void walkOnMap(MAP* m, int originX, int originY,
   int destinyX, int destinyY) {

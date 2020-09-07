@@ -8,9 +8,21 @@
 MAP m;
 COORDINATES runner;
 
-int over()
-{
-  return 0;
+void ghosts() {
+  MAP copy;
+
+  copyMap(&m, &copy);
+
+  for (int i = 0; i < m.lines; i++) {
+    for (int j = 0; j < m.columns; j++) {
+      if (copy.matrix[i][j] == GHOST) {
+        if (pathIsValid(&m, i, j+1) && pathIsEmpty(&m, i, j+1)) {
+          walkOnMap(&m, i, j, i, j+1);
+        }
+      }
+    }
+  }
+  freeMap(&copy);
 }
 
 int isDirection(char direction) {
@@ -52,6 +64,11 @@ void move(char direction)
   runner.y = nextY;
 }
 
+int over()
+{
+  return 0;
+}
+
 int main()
 {
   readMap(&m);
@@ -66,6 +83,7 @@ int main()
     tolower(command);
 
     move(command);
+    ghosts();
 
   } while (!over());
 
