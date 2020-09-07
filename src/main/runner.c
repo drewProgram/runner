@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <ctype.h>
 
 #include "../headers/runner.h"
 #include "../headers/map.h"
@@ -12,41 +13,40 @@ int over()
   return 0;
 }
 
+int isDirection(char direction) {
+  return direction == UP ||
+  direction == LEFT ||
+  direction == DOWN ||
+  direction == RIGHT;
+}
+
 void move(char direction)
 {
-  if (direction != 'w' &&
-      direction != 'a' &&
-      direction != 's' &&
-      direction != 'd')
-    return;
+  if (!isDirection(direction)) return;
 
   int nextX = runner.x;
   int nextY = runner.y;
 
   switch (direction)
   {
-  case 'w':
+  case UP:
     nextX--;
     break;
-  case 'a':
+  case LEFT:
     nextY--;
     break;
-  case 's':
+  case DOWN:
     nextX++;
     break;
-  case 'd':
+  case RIGHT:
     nextY++;
     break;
   }
 
-  if (nextX >= m.lines) return;
-  if (nextX >= m.columns) return;
-  if (m.matrix[nextX][nextY] != '.' &&
-      m.matrix[nextX][nextY] != ' ')
-    return;
+  if (!pathIsValid(&m, nextX, nextY)) return;
+  if (!pathIsEmpty(&m, nextX, nextY)) return;
 
-  m.matrix[nextX][nextY] = '@';
-  m.matrix[runner.x][runner.y] = ' ';
+  walkOnMap(&m, runner.x, runner.y, nextX, nextY);
 
   runner.x = nextX;
   runner.y = nextY;
@@ -55,7 +55,7 @@ void move(char direction)
 int main()
 {
   readMap(&m);
-  findOnMap(&m, &runner, '@');
+  findOnMap(&m, &runner, RUNNER);
 
   do
   {
@@ -63,6 +63,8 @@ int main()
 
     char command;
     scanf(" %c", &command);
+    tolower(command);
+
     move(command);
 
   } while (!over());

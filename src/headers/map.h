@@ -1,3 +1,9 @@
+#define RUNNER '@'
+#define FOOD '.'
+#define VOID ' '
+#define VERTICAL_WALL '|'
+#define HORIZONTAL_WALL '-'
+
 // struct = group of vars (similar to a class)
 struct map {
   char** matrix;
@@ -5,7 +11,7 @@ struct map {
   int columns;
 };
 
-// defining a name nickname to the struct
+// defining a nickname to the struct
 typedef struct map MAP;
 
 struct coordinates {
@@ -20,3 +26,8 @@ void allocateMap(MAP* m);
 void freeMap(MAP* m);
 void drawMap(MAP* m);
 void findOnMap(MAP *m, COORDINATES *c, char ch);
+
+int pathIsValid(MAP* m, int x, int y);
+int pathIsEmpty(MAP* m, int x, int y);
+void walkOnMap(MAP* m, int originX, int originY,
+  int destinyX, int destinyY);

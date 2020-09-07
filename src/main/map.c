@@ -3,6 +3,28 @@
 
 #include "../headers/map.h"
 
+void walkOnMap(MAP* m, int originX, int originY,
+  int destinyX, int destinyY) {
+
+  char character = m->matrix[originX][originY];
+  m->matrix[destinyX][destinyY] = character;
+  m->matrix[originX][originY] = VOID;
+}
+
+int pathIsValid(MAP* m, int x, int y) {
+  if (x >= m->lines) return 0;
+  if (y >= m->columns) return 0;
+
+  return 1;
+}
+
+int pathIsEmpty(MAP* m, int x, int y) {
+  if (m->matrix[x][y] != FOOD &&
+      m->matrix[x][y] != VOID) return 0;
+
+  return 1;
+}
+
 void findOnMap(MAP *m, COORDINATES *c, char ch)
 {
   for (int i = 0; i < m->lines; i++)
