@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <ctype.h>
+#include <time.h>
 
 #include "../headers/runner.h"
 #include "../headers/map.h"
@@ -8,16 +9,55 @@
 MAP m;
 COORDINATES runner;
 
-void ghosts() {
+int directionGhostWalks(int originX, int originY,
+                        int *destinyX, int *destinyY)
+{
+
+  // defining a matrix with the possible directions
+  int options[4][2] = {
+    {originX, originY + 1},
+    {originX + 1, originY},
+    {originX, originY - 1},
+    {originX - 1, originY}
+  };
+
+  // randomizing which direction will be chosen
+  srand(time(0));
+  for (int i = 0; i < 10; i++)
+  {
+    int position = rand() % 4;
+
+    if (canWalk(&m, options[position][0], options[position][1]))
+    {
+      *destinyX = options[position][0];
+      *destinyY = options[position][1];
+
+      return 1;
+    }
+  }
+  return 0;
+}
+
+void ghosts()
+{
   MAP copy;
 
   copyMap(&m, &copy);
 
-  for (int i = 0; i < m.lines; i++) {
-    for (int j = 0; j < m.columns; j++) {
-      if (copy.matrix[i][j] == GHOST) {
-        if (pathIsValid(&m, i, j+1) && pathIsEmpty(&m, i, j+1)) {
-          walkOnMap(&m, i, j, i, j+1);
+  for (int i = 0; i < m.lines; i++)
+  {
+    for (int j = 0; j < m.columns; j++)
+    {
+      if (copy.matrix[i][j] == GHOST)
+      {
+        int destinyX;
+        int destinyY;
+
+        int found = directionGhostWalks(i, j, &destinyX, &destinyY);
+
+        if (found)
+        {
+          walkOnMap(&m, i, j, destinyX, destinyY);
         }
       }
     }
@@ -25,16 +65,18 @@ void ghosts() {
   freeMap(&copy);
 }
 
-int isDirection(char direction) {
+int isDirection(char direction)
+{
   return direction == UP ||
-  direction == LEFT ||
-  direction == DOWN ||
-  direction == RIGHT;
+         direction == LEFT ||
+         direction == DOWN ||
+         direction == RIGHT;
 }
 
 void move(char direction)
 {
-  if (!isDirection(direction)) return;
+  if (!isDirection(direction))
+    return;
 
   int nextX = runner.x;
   int nextY = runner.y;
@@ -55,8 +97,10 @@ void move(char direction)
     break;
   }
 
-  if (!pathIsValid(&m, nextX, nextY)) return;
-  if (!pathIsEmpty(&m, nextX, nextY)) return;
+  if (!pathIsValid(&m, nextX, nextY))
+    return;
+  if (!pathIsEmpty(&m, nextX, nextY))
+    return;
 
   walkOnMap(&m, runner.x, runner.y, nextX, nextY);
 

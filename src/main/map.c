@@ -15,6 +15,12 @@ void copyMap(MAP* origin, MAP* destiny) {
   }
 }
 
+int canWalk(MAP* m, int x, int y) {
+  return
+    pathIsEmpty(m, x, y);
+    pathIsValid(m, x, y);
+}
+
 void walkOnMap(MAP* m, int originX, int originY,
   int destinyX, int destinyY) {
 

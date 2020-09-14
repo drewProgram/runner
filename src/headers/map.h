@@ -30,6 +30,7 @@ void drawMap(MAP* m);
 void findOnMap(MAP *m, COORDINATES *c, char ch);
 void copyMap(MAP* origin, MAP* destiny);
 
+int canWalk(MAP* m, int x, int y);
 int pathIsValid(MAP* m, int x, int y);
 int pathIsEmpty(MAP* m, int x, int y);
 void walkOnMap(MAP* m, int originX, int originY,
