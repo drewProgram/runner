@@ -4,7 +4,8 @@
 #define FOOD '.'
 #define VOID ' '
 #define VERTICAL_WALL '|'
-#define HORIZONTAL_WALL '-'
+#define HORIZONTAL_WALL1 '='
+#define HORIZONTAL_WALL2 '-'
 
 // struct = group of vars (similar to a class)
 struct map {
@@ -30,8 +31,10 @@ void drawMap(MAP* m);
 void findOnMap(MAP *m, COORDINATES *c, char ch);
 void copyMap(MAP* origin, MAP* destiny);
 
-int canWalk(MAP* m, int x, int y);
+int canWalk(MAP* m, char character, int x, int y);
 int pathIsValid(MAP* m, int x, int y);
 int pathIsEmpty(MAP* m, int x, int y);
+int pathHasWall(MAP* m, int x, int y);
+int pathHasCharacter(MAP* m, char character, int x, int y);
 void walkOnMap(MAP* m, int originX, int originY,
   int destinyX, int destinyY);

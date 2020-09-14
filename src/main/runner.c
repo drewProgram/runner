@@ -27,7 +27,7 @@ int directionGhostWalks(int originX, int originY,
   {
     int position = rand() % 4;
 
-    if (canWalk(&m, options[position][0], options[position][1]))
+    if (canWalk(&m, GHOST, options[position][0], options[position][1]))
     {
       *destinyX = options[position][0];
       *destinyY = options[position][1];
@@ -97,10 +97,7 @@ void move(char direction)
     break;
   }
 
-  if (!pathIsValid(&m, nextX, nextY))
-    return;
-  if (!pathIsEmpty(&m, nextX, nextY))
-    return;
+  if(!canWalk(&m, RUNNER, nextX, nextY)) return;
 
   walkOnMap(&m, runner.x, runner.y, nextX, nextY);
 

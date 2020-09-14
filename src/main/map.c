@@ -15,10 +15,11 @@ void copyMap(MAP* origin, MAP* destiny) {
   }
 }
 
-int canWalk(MAP* m, int x, int y) {
+int canWalk(MAP* m, char character, int x, int y) {
   return
-    pathIsEmpty(m, x, y);
-    pathIsValid(m, x, y);
+    pathIsValid(m, x, y) &&
+    !pathHasWall(m, x, y) &&
+    !pathHasCharacter(m, character, x, y);
 }
 
 void walkOnMap(MAP* m, int originX, int originY,
@@ -41,6 +42,16 @@ int pathIsEmpty(MAP* m, int x, int y) {
       m->matrix[x][y] != VOID) return 0;
 
   return 1;
+}
+
+int pathHasWall(MAP* m, int x, int y) {
+  return m->matrix[x][y] == HORIZONTAL_WALL1 ||
+  m->matrix[x][y] == VERTICAL_WALL ||
+  m->matrix[x][y] == HORIZONTAL_WALL2;
+}
+
+int pathHasCharacter(MAP* m, char character, int x, int y) {
+  return m->matrix[x][y] == character;
 }
 
 void findOnMap(MAP *m, COORDINATES *c, char ch)
