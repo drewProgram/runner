@@ -38,10 +38,7 @@ int pathIsValid(MAP* m, int x, int y) {
 }
 
 int pathIsEmpty(MAP* m, int x, int y) {
-  if (m->matrix[x][y] != FOOD &&
-      m->matrix[x][y] != VOID) return 0;
-
-  return 1;
+  return m->matrix[x][y] == VOID;
 }
 
 int pathHasWall(MAP* m, int x, int y) {
@@ -54,7 +51,7 @@ int pathHasCharacter(MAP* m, char character, int x, int y) {
   return m->matrix[x][y] == character;
 }
 
-void findOnMap(MAP *m, COORDINATES *c, char ch)
+int findOnMap(MAP *m, COORDINATES *c, char ch)
 {
   for (int i = 0; i < m->lines; i++)
   {
@@ -64,10 +61,11 @@ void findOnMap(MAP *m, COORDINATES *c, char ch)
       {
         c->x = i;
         c->y = j;
-        break;
+        return 1;
       }
     }
   }
+  return 0;
 }
 
 void freeMap(MAP *m)
@@ -115,13 +113,5 @@ void allocateMap(MAP *m)
   for (int i = 0; i < m->lines; i++)
   {
     m->matrix[i] = malloc(sizeof(char) * (m->columns + 1));
-  }
-}
-
-void drawMap(MAP *m)
-{
-  for (int i = 0; i < 5; i++)
-  {
-    printf("%s\n", m->matrix[i]);
   }
 }
