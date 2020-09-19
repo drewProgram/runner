@@ -10,3 +10,4 @@ Input one of the commands bellow and press enter in order to make the Runner mov
 * Use `a` to go left
 * Use `s` to go down
 * Use `d` to go right
+* Use `b` when you have a pill to activate a laser and kill nerby ghosts
